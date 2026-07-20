@@ -16,6 +16,7 @@
 
 import json
 import streamlit as st
+import streamlit.components.v1 as components
 
 st.set_page_config(
     page_title="2019.07.22 — 176 Headlines",
@@ -83,7 +84,7 @@ html = r'''
     <button id="replay" type="button">다시 시작 · R</button>
     <button id="pause" type="button">일시정지 · Space</button>
     <button id="fullscreen" type="button">전체화면 · F</button>
-    <span>F → 녹화 시작 → R. 약 58초 후 종료됩니다.</span>
+    <span>멈춰 있으면 ‘다시 시작’을 클릭하세요. 전체화면 뒤에도 버튼 또는 R로 재생할 수 있습니다.</span>
   </div>
 
   <main id="stage" tabindex="0" aria-label="2019년 7월 22일 기사 제목 타임라인">
@@ -129,6 +130,7 @@ html = r'''
     <div id="lead" class="lead">
       <div>2019.07.22</div>
       <small>176 HEADLINES · 00:00—23:09</small>
+      <button id="lead-start" type="button">재생 시작</button>
     </div>
   </main>
 </div>
@@ -434,7 +436,7 @@ html = r'''
     background: #fff;
     opacity: 1;
     transition: opacity 380ms ease;
-    pointer-events: none;
+    pointer-events: auto;
   }
 
   .lead.hide { opacity: 0; }
@@ -450,6 +452,23 @@ html = r'''
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     font-size: clamp(9px, 1vw, 15px);
     letter-spacing: .06em;
+  }
+
+  .lead button {
+    margin-top: 2.4%;
+    appearance: none;
+    border: 1px solid #111;
+    border-radius: 999px;
+    background: #fff;
+    color: #111;
+    padding: 10px 18px;
+    font: inherit;
+    font-size: clamp(11px, 1.1vw, 16px);
+    cursor: pointer;
+  }
+
+  .lead.hide {
+    pointer-events: none;
   }
 
   #stage:fullscreen {
@@ -502,6 +521,7 @@ html = r'''
   const cardTitle = document.getElementById("card-title");
   const cardBody = document.getElementById("card-body");
   const lead = document.getElementById("lead");
+  const leadStartButton = document.getElementById("lead-start");
   const replayButton = document.getElementById("replay");
   const pauseButton = document.getElementById("pause");
   const fullscreenButton = document.getElementById("fullscreen");
@@ -529,6 +549,7 @@ html = r'''
   let finished = false;
   let renderedItems = [];
   let destroyed = false;
+  let started = false;
 
   function pad3(value) {
     return String(value).padStart(3, "0");
@@ -633,6 +654,7 @@ html = r'''
     firstCardRemaining = 0;
     finalRemaining = 0;
     finished = false;
+    started = false;
     previousTimestamp = null;
     feed.innerHTML = "";
     renderedItems = [];
@@ -645,7 +667,17 @@ html = r'''
     pauseButton.textContent = "일시정지 · Space";
   }
 
+  function startPlayback() {
+    if (!started) {
+      started = true;
+      wallElapsed = LEAD_IN;
+      lead.classList.add("hide");
+      stage.focus();
+    }
+  }
+
   function togglePause() {
+    if (!started) startPlayback();
     userPaused = !userPaused;
     pauseButton.textContent = userPaused
       ? "재생 · Space"
@@ -669,7 +701,7 @@ html = r'''
     const dt = Math.min((timestamp - previousTimestamp) / 1000, 0.1);
     previousTimestamp = timestamp;
 
-    if (!userPaused) {
+    if (!userPaused && started) {
       wallElapsed += dt;
 
       if (wallElapsed >= LEAD_IN) {
@@ -699,7 +731,7 @@ html = r'''
 
   function onKeydown(event) {
     if (event.key === "r" || event.key === "R") {
-      reset();
+      replayNow();
     } else if (event.key === " ") {
       event.preventDefault();
       togglePause();
@@ -708,7 +740,13 @@ html = r'''
     }
   }
 
-  replayButton.addEventListener("click", reset);
+  function replayNow() {
+    reset();
+    startPlayback();
+  }
+
+  leadStartButton.addEventListener("click", startPlayback);
+  replayButton.addEventListener("click", replayNow);
   pauseButton.addEventListener("click", togglePause);
   fullscreenButton.addEventListener("click", toggleFullscreen);
   stage.addEventListener("dblclick", toggleFullscreen);
@@ -719,7 +757,8 @@ html = r'''
       destroyed = true;
       if (rafId) cancelAnimationFrame(rafId);
       window.removeEventListener("keydown", onKeydown);
-      replayButton.removeEventListener("click", reset);
+      leadStartButton.removeEventListener("click", startPlayback);
+      replayButton.removeEventListener("click", replayNow);
       pauseButton.removeEventListener("click", togglePause);
       fullscreenButton.removeEventListener("click", toggleFullscreen);
       stage.removeEventListener("dblclick", toggleFullscreen);
@@ -733,4 +772,8 @@ html = r'''
 '''
 
 html = html.replace("__PAYLOAD__", json.dumps(payload, ensure_ascii=False))
-st.html(html, unsafe_allow_javascript=True)
+components.html(
+    html,
+    height=1280,
+    scrolling=False,
+)

@@ -15,10 +15,10 @@ st.set_page_config(
 
 ACTIVE_TIMELINE_SECONDS = 43.0
 LEAD_IN_SECONDS = 1.0
-INTRO_SECONDS = 1.5
+INTRO_SECONDS = 1.2
 
 SPECIAL_ARTICLES = {
-    6:   {"file": "assets/article_006.jpg", "duration": 2.0, "scroll": False},
+    6:   {"file": "assets/article_006.jpg", "duration": 1.2, "scroll": False},
     162: {"file": "assets/article_162.jpg", "duration": 1.2, "scroll": False},
 }
 

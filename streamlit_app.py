@@ -109,10 +109,7 @@ html = r"""
       </div>
     </section>
 
-    <footer class="footer">
-      <span>HEADLINES IN PUBLICATION ORDER</span>
-      <span>REAL INTERVALS · LINEARLY COMPRESSED</span>
-    </footer>
+
 
     <section id="end-card" class="end-card" aria-label="엔딩 크레딧">
       <div class="end-count">176</div>

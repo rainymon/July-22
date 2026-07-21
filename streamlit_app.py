@@ -19,6 +19,7 @@ INTRO_SECONDS = 1.2
 
 SPECIAL_ARTICLES = {
     6:   {"file": "assets/article_006.jpg", "duration": 1.2, "scroll": False},
+    161: {"file": "assets/article_161.jpg", "duration": 1.2, "scroll": False},
     162: {"file": "assets/article_162.jpg", "duration": 1.2, "scroll": False},
 }
 
@@ -201,7 +202,7 @@ html = r"""
 .intro-card {
   position: absolute;
   inset: 0;
-  z-index: 100;
+  z-index: 4;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -285,7 +286,7 @@ html = r"""
   text-align: right;
   font-variant-numeric: lining-nums tabular-nums;
 }
-.timeline { position:absolute; left:5.2%; right:5.2%; top:10.2%; height:5.4%; z-index:4; }
+.timeline { position:absolute; left:5.2%; right:5.2%; top:10.2%; height:5.4%; z-index:3; }
 .timeline-track { position:relative; height:1px; margin-top:2.5%; background:#dadad6; }
 .timeline-progress { position:absolute; left:0; top:0; width:0%; height:1px; background:#111; }
 .timeline-dot { position:absolute; top:50%; left:0%; width:8px; height:8px; border-radius:50%; background:#111; transform:translate(-50%,-50%); }

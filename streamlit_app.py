@@ -271,8 +271,8 @@ html = r"""
 }
 
 .end-label {
-   margin-top:5%;
-  font-size:clamp(18px,2.4vw,27px);
+   margin-top:2%;
+  font-size:clamp(18px,1.5vw,27px);
   font-weight:500;
   letter-spacing:-.035em;
 }

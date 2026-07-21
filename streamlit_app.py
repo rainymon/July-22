@@ -18,7 +18,7 @@ LEAD_IN_SECONDS = 1.0
 
 SPECIAL_ARTICLES = {
     1:   {"file": "assets/article_001.jpg", "duration": 1.2, "scroll": False},
-    6:   {"file": "assets/article_006.jpg", "duration": 1.2, "scroll": False},
+    6:   {"file": "assets/article_006.jpg", "duration": 2.0, "scroll": False},
 
     161: {"file": "assets/article_161.jpg", "duration": 1.2, "scroll": False},
     162: {"file": "assets/article_162.jpg", "duration": 1.2, "scroll": False},

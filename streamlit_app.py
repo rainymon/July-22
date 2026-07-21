@@ -205,9 +205,9 @@ html = r"""
 /* 상단 날짜 */
 .date {
   font-family: "Radley", Georgia, serif;
-  font-size: clamp(10px, 2vw, 20px);
+  font-size: clamp(7px, 2vw, 15px);
   font-style: italic;
-  font-weight: 300;
+  font-weight: 100;
   letter-spacing: 0;
   font-variant-numeric: lining-nums tabular-nums;
 }
@@ -225,9 +225,9 @@ html = r"""
 /* 상단 기사 개수 */
 .counter {
   font-family: "Radley", Georgia, serif;
-  font-size: clamp(10px, 2vw, 20px);
+  font-size: clamp(7px, 2vw, 15px);
   font-style: italic;
-  font-weight: 300;
+  font-weight: 100;
   letter-spacing: 0;
   text-align: right;
   font-variant-numeric: lining-nums tabular-nums;

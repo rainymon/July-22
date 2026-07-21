@@ -89,7 +89,7 @@ html = r"""
       <div class="timeline-labels">
         <span class="timeline-label label-start" style="left:0%">00:00</span>
         <span class="timeline-label" style="left:59.236111%">14:13</span>
-        <span class="timeline-label label-before-end" style="left:96.458333%">23:09</span>
+        <span class="timeline-label" style="left:96.458333%">23:09</span>
         <span class="timeline-label label-end" style="left:100%" aria-label="24:00"></span>
         
       </div>
@@ -229,13 +229,6 @@ html = r"""
 .timeline-label::before { content:""; position:absolute; left:50%; top:-8px; width:1px; height:5px; background:#bdbdb8; }
 .timeline-label.label-start { transform:none; }
 .timeline-label.label-start::before { left:0; }
-.timeline-label.label-before-end {
-  transform: translateX(calc(-100% - 10px));
-}
-
-.timeline-label.label-before-end::before {
-  left: calc(100% + 10px);
-}
 
 .timeline-label.label-end {
   transform: translateX(-100%);

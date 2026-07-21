@@ -271,9 +271,10 @@ html = r"""
 }
 
 .end-label {
-   margin-top:2%;
-  font-size:clamp(18px,1.5vw,27px);
-  letter-spacing:-.035em;
+  margin-top:1.2%;
+  color:#555550;
+  font-size:clamp(12px,1.55vw,18px);
+  letter-spacing:.02em
 }
 
 .end-rule {

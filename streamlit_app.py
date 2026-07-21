@@ -116,7 +116,7 @@ html = r"""
       <div class="end-label">HEADLINES</div>
       <div class="end-rule"></div>
       <div class="end-date">2019.07.22</div>
-      <div class="end-time">00:00—23:09</div>
+      // <div class="end-time">00:00—23:09</div>
       <div class="end-title">〈열여덟의 순간〉</div>
       <div class="end-info">제작발표회 · 첫 방송</div>
 

@@ -136,7 +136,28 @@ html = r"""
 .controls button { appearance:none; border:1px solid #cfcfcb; border-radius:999px; background:#fff; color:#111; padding:8px 13px; font:inherit; cursor:pointer; white-space:nowrap; }
 .controls span { margin-left:4px; }
 #stage { position:relative; width:min(720px,80vw); aspect-ratio:4/5; overflow:hidden; background:#fff; border:1px solid #d8d8d3; box-shadow:0 16px 44px rgba(0,0,0,.10); outline:none; }
-.masthead { position:absolute; inset:0 0 auto 0; height:10.6%; display:grid; grid-template-columns:1fr auto 1fr; align-items:end; padding:0 5.2% 2.5%; border-bottom:1px solid #d7d7d3; z-index:5; background:#fff; }
+.masthead {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 10.6%;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: end;
+  padding: 0 5.2% 2.5%;
+  border-bottom: none;
+  z-index: 5;
+  background: #fff;
+}
+
+.masthead::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 7px;
+  height: 1px;
+  background: #d7d7d3;
+}
 .date {
   font-family: "Radley", Georgia, serif;
   font-size: clamp(15px, 2vw, 28px);

@@ -272,7 +272,7 @@ html = r"""
 
 .end-label {
   margin-top:1.8%;
-  font-family:"Radley", Georgia, serif;
+  
   font-style:italic;
   font-weight:500;
   font-size:clamp(20px,3vw,34px);

@@ -15,9 +15,9 @@ st.set_page_config(
 
 ACTIVE_TIMELINE_SECONDS = 43.0
 LEAD_IN_SECONDS = 1.0
+INTRO_SECONDS = 2.0
 
 SPECIAL_ARTICLES = {
-    1:   {"file": "assets/article_001.jpg", "duration": 1.2, "scroll": False},
     6:   {"file": "assets/article_006.jpg", "duration": 2.0, "scroll": False},
 
     161: {"file": "assets/article_161.jpg", "duration": 1.2, "scroll": False},
@@ -42,6 +42,8 @@ for num, config in SPECIAL_ARTICLES.items():
         "scroll": bool(config["scroll"]),
     }
 
+main_media = file_to_data_url("assets/main.jpg")
+
 st.markdown(
     """
     <style>
@@ -62,6 +64,8 @@ payload = {
     "activeSeconds": ACTIVE_TIMELINE_SECONDS,
     "leadInSeconds": LEAD_IN_SECONDS,
     "specialMedia": special_media,
+    "mainMedia": main_media,
+    "introSeconds": INTRO_SECONDS,
 }
 
 html = r"""
@@ -75,6 +79,14 @@ html = r"""
   </div>
 
   <main id="stage" tabindex="0">
+    <div id="stage-background" class="stage-background" aria-hidden="true">
+      <img id="background-image" alt="" />
+    </div>
+
+    <section id="intro-card" class="intro-card show" aria-label="인트로 이미지">
+      <img id="intro-image" alt="열여덟의 순간 첫 방송 이미지" />
+    </section>
+
     <header class="masthead">
       <div class="date">2019.07.22</div>
       <div class="live-time" id="live-time">00:00</div>
@@ -171,6 +183,63 @@ html = r"""
   box-shadow: 0 16px 44px rgba(0, 0, 0, 0.10);
   outline: none;
 }
+.stage-background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: #fff;
+  opacity: .4;
+  transition: opacity 180ms ease;
+  pointer-events: none;
+}
+
+.stage-background img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.intro-card {
+  position: absolute;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #fff;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 180ms ease, visibility 0s linear 180ms;
+  pointer-events: none;
+}
+
+.intro-card.show {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.intro-card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+#stage.capture-mode .stage-background,
+#stage.end-mode .stage-background {
+  opacity: 0;
+}
+
+#stage.end-mode .masthead {
+  background: #fff;
+}
+
 .masthead {
   position: absolute;
   inset: 0 0 auto 0;
@@ -181,7 +250,7 @@ html = r"""
   padding: 0 5.2% 2.5%;
   border-bottom: none;
   z-index: 5;
-  background: #fff;
+  background: rgba(255,255,255,.72);
 }
 
 .masthead::after {
@@ -237,7 +306,7 @@ html = r"""
 .timeline-label.label-end::before {
   left: 100%;
 }
-.feed-wrap { position:absolute; left:5.2%; right:5.2%; top:19.2%; bottom:8.5%; overflow:hidden; }
+.feed-wrap { position:absolute; left:5.2%; right:5.2%; top:19.2%; bottom:8.5%; z-index:2; overflow:hidden; }
 .feed {
   position:absolute; left:0; right:0; bottom:0; margin:0;
   padding:0 0 15% 0; list-style:none; display:flex; flex-direction:column;
@@ -263,8 +332,8 @@ html = r"""
 .feed-item.current .feed-time { color:#111; font-weight:700; }
 .feed-item.current .feed-title { font-weight:760; }
 .feed-fade { position:absolute; left:0; right:0; height:12%; z-index:3; pointer-events:none; }
-.feed-fade-top { top:0; background:linear-gradient(#fff 8%, rgba(255,255,255,0)); }
-.feed-fade-bottom { bottom:0; height:4%; background:linear-gradient(rgba(255,255,255,0), #fff 92%); }
+.feed-fade-top { top:0; background:linear-gradient(rgba(255,255,255,.88) 8%, rgba(255,255,255,0)); }
+.feed-fade-bottom { bottom:0; height:4%; background:linear-gradient(rgba(255,255,255,0), rgba(255,255,255,.88) 92%); }
 .media-card { position:absolute; left:4.2%; right:4.2%; top:16.2%; bottom:7.2%; z-index:20; display:flex; flex-direction:column; gap:1.8%; padding:2.2%; background:rgba(255,255,255,.985); border:1px solid #111; opacity:0; visibility:hidden; transform:translateY(18px); transition:opacity 220ms ease, transform 220ms ease, visibility 0s linear 220ms; }
 .media-card.show { opacity:1; visibility:visible; transform:translateY(0); transition-delay:0s; }
 .media-header { display:flex; justify-content:space-between; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:clamp(12px,1.4vw,20px); font-weight:650; padding-bottom:.5%; color:#111; }
@@ -399,6 +468,8 @@ html = r"""
   const specialMedia = payload.specialMedia || {};
   const ACTIVE_SECONDS = payload.activeSeconds;
   const LEAD_IN = payload.leadInSeconds;
+  const INTRO_SECONDS = payload.introSeconds || 0;
+  const MAIN_MEDIA = payload.mainMedia || "";
   const DAY_MINUTES = 24 * 60;
 
   const stage = document.getElementById("stage");
@@ -413,6 +484,11 @@ html = r"""
   const mediaViewport = document.getElementById("media-viewport");
   const mediaImage = document.getElementById("media-image");
   const endCard = document.getElementById("end-card");
+  const introCard = document.getElementById("intro-card");
+  const introImage = document.getElementById("intro-image");
+  const backgroundImage = document.getElementById("background-image");
+  introImage.src = MAIN_MEDIA;
+  backgroundImage.src = MAIN_MEDIA;
   const startButton = document.getElementById("start");
   const replayButton = document.getElementById("replay");
   const pauseButton = document.getElementById("pause");
@@ -426,6 +502,7 @@ html = r"""
   let rafId = null, previousTimestamp = null, wallElapsed = 0, activeElapsed = 0, nextIndex = 0;
   let userPaused = false, started = false, specialRemaining = 0, currentSpecial = null, scrollMax = 0, finished = false, post176Blank = false, destroyed = false;
   let renderedItems = [];
+  let introRemaining = INTRO_SECONDS;
 
   function pad3(v) { return String(v).padStart(3, "0"); }
   function minuteToClock(x) {
@@ -457,6 +534,7 @@ html = r"""
   mediaImage.addEventListener("load", () => { scrollMax = 0; });
   window.addEventListener("resize", recomputeScrollMax);
   function showSpecial(article, config) {
+    stage.classList.add("capture-mode");
     currentSpecial = { article, duration: config.duration, scroll: false };
     specialRemaining = config.duration;
     mediaNum.textContent = pad3(article.num);
@@ -470,6 +548,7 @@ html = r"""
     specialRemaining = 0;
     currentSpecial = null;
     mediaCard.classList.remove("show");
+    stage.classList.remove("capture-mode");
     
   }
   function updateSpecialAnimation() {
@@ -506,16 +585,12 @@ html = r"""
   function reset() {
     wallElapsed = 0; activeElapsed = 0; nextIndex = 0; userPaused = false; started = false;
     specialRemaining = 0; currentSpecial = null; scrollMax = 0; finished = false; post176Blank = false; previousTimestamp = null;
+    introRemaining = INTRO_SECONDS;
     feed.innerHTML = ""; renderedItems = []; counter.textContent = "000"; liveTime.textContent = "00:00";
     progress.style.width = "0%"; dot.style.left = "0%"; hideSpecial();
+    stage.classList.remove("end-mode");
     endCard.classList.remove("show");
-
-    // 첫 화면부터 001번 기사와 캡처를 보여준다.
-    const firstArticle = events[0];
-    addFeedItem(firstArticle);
-    showSpecial(firstArticle, specialMedia[firstArticle.num]);
-    specialRemaining = specialMedia[firstArticle.num].duration;
-    nextIndex = 1;
+    introCard.classList.toggle("show", INTRO_SECONDS > 0 && Boolean(MAIN_MEDIA));
 
     pauseButton.textContent = "일시정지 · Space"; startButton.textContent = "재생 시작";
   }
@@ -539,7 +614,14 @@ html = r"""
     if (!userPaused && started) {
       wallElapsed += dt;
       if (wallElapsed >= LEAD_IN) {
-        if (specialRemaining > 0) {
+        if (introRemaining > 0) {
+          introRemaining -= dt;
+          if (introRemaining <= 0) {
+            introRemaining = 0;
+            introCard.classList.remove("show");
+            processEvents();
+          }
+        } else if (specialRemaining > 0) {
           specialRemaining -= dt;
           updateSpecialAnimation();
           if (specialRemaining <= 0) {
@@ -588,6 +670,7 @@ html = r"""
             feed.innerHTML = "";
             renderedItems = [];
             hideSpecial();
+            stage.classList.add("end-mode");
             endCard.classList.add("show");
           }
         }

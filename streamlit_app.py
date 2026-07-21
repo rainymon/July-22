@@ -468,20 +468,21 @@ html = r"""
   overflow: hidden;
   border: 1px solid #d9d9d4;
   background: #fafaf8;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .media-viewport img {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 540px;
-  height: 650px;
-  max-width: none;
-  max-height: none;
-  object-fit: fill;
+  position: static;
+  width: auto;
+  height: auto;
+  max-width: 540px;
+  max-height: 100%;
+  object-fit: contain;
   display: block;
-  transform: translate(-50%, -50%) !important;
-  transform-origin: center center;
+  transform: none !important;
   user-select: none;
   -webkit-user-drag: none;
 }

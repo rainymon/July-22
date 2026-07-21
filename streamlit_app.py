@@ -13,7 +13,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-ACTIVE_TIMELINE_SECONDS = 43.0
+ACTIVE_TIMELINE_SECONDS = 50.0
 LEAD_IN_SECONDS = 1.0
 INTRO_SECONDS = 1.2
 
@@ -233,6 +233,11 @@ html = r"""
   opacity: .25;
 }
 
+#stage.capture-mode .feed-wrap {
+  opacity: 0;
+  visibility: hidden;
+}
+
 #stage.end-mode .masthead {
   background: rgba(255,255,255,.72);
 }
@@ -303,15 +308,26 @@ html = r"""
 .timeline-label.label-end::before {
   left: 100%;
 }
-.feed-wrap { position:absolute; left:5.2%; right:5.2%; top:19.2%; bottom:8.5%; z-index:2; overflow:hidden; }
+.feed-wrap {
+  position:absolute;
+  left:5.2%;
+  right:5.2%;
+  top:19.2%;
+  bottom:8.5%;
+  z-index:2;
+  overflow:hidden;
+  opacity:1;
+  visibility:visible;
+  transition:opacity 140ms ease, visibility 0s linear 0s;
+}
 .feed {
   position:absolute; left:0; right:0; bottom:0; margin:0;
   padding:0 0 15% 0; list-style:none; display:flex; flex-direction:column;
-  gap:clamp(9px,1.15vh,16px);
+  gap:clamp(6px,.75vh,11px);
 }
 .feed-item {
   display:grid; grid-template-columns:7.2% 9.8% 1fr; column-gap:2%; align-items:start;
-  padding-bottom:clamp(7px,.8vh,12px); border-bottom:1px solid #ecece8;
+  padding-bottom:clamp(4px,.5vh,8px); border-bottom:1px solid #ecece8;
   opacity:.34; transform:translateY(18px);
   transition:opacity 180ms ease, transform 240ms ease;
 }
@@ -319,11 +335,11 @@ html = r"""
 .feed-item.current { opacity:1; }
 .feed-num,.feed-time {
   color:#555550; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-  font-size:clamp(10px,1.05vw,16px); line-height:1.45; padding-top:.15em;
+  font-size:clamp(9px,.9vw,14px); line-height:1.36; padding-top:.12em;
 }
 .feed-title {
-  color:#111; font-size:clamp(15px,1.8vw,27px); font-weight:430;
-  line-height:1.38; letter-spacing:-.025em; word-break:keep-all; overflow-wrap:anywhere;
+  color:#111; font-size:clamp(13px,1.48vw,22px); font-weight:430;
+  line-height:1.30; letter-spacing:-.025em; word-break:keep-all; overflow-wrap:anywhere;
 }
 .feed-item.current .feed-num,
 .feed-item.current .feed-time { color:#111; font-weight:700; }
@@ -521,7 +537,7 @@ html = r"""
     li.querySelector(".feed-title").textContent = article.title;
     feed.appendChild(li);
     renderedItems.push(li);
-    while (renderedItems.length > 7) renderedItems.shift().remove();
+    while (renderedItems.length > 10) renderedItems.shift().remove();
     requestAnimationFrame(() => li.classList.add("visible", "current"));
     counter.textContent = pad3(article.num);
   }

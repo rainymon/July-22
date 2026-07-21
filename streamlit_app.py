@@ -122,7 +122,7 @@ html = r"""
       <div class="end-time">00:00—23:09</div>
       <div class="end-title">〈열여덟의 순간〉</div>
       <div class="end-info">제작발표회 · 첫 방송</div>
-      <div class="end-credit">SHIN SEUNGHO · IN PUBLICATION ORDER</div>
+
     </section>
   </main>
 </div>
@@ -167,7 +167,7 @@ html = r"""
   text-align: right;
   font-variant-numeric: lining-nums tabular-nums;
 }
-.timeline { position:absolute; left:5.2%; right:5.2%; top:12.1%; height:5.4%; z-index:4; }
+.timeline { position:absolute; left:5.2%; right:5.2%; top:10.2%; height:5.4%; z-index:4; }
 .timeline-track { position:relative; height:1px; margin-top:2.5%; background:#dadad6; }
 .timeline-progress { position:absolute; left:0; top:0; width:0%; height:1px; background:#111; }
 .timeline-dot { position:absolute; top:50%; left:0%; width:8px; height:8px; border-radius:50%; background:#111; transform:translate(-50%,-50%); }

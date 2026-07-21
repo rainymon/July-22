@@ -99,7 +99,7 @@ html = r"""
       <div class="timeline-labels">
         <span class="timeline-label label-start" style="left:0%">00:00</span>
         <span class="timeline-label" style="left:59.236111%">14:13</span>
-        <span class="timeline-label label-end" style="left:96.458333%">23:09</span>
+        <span class="timeline-label" style="left:96.458333%">23:09</span>
         
       </div>
     </div>

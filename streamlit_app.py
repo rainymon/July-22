@@ -116,7 +116,7 @@ html = r"""
       <div class="end-label">HEADLINES</div>
       <div class="end-rule"></div>
       <div class="end-date">2019.07.22</div>
-      // <div class="end-time">00:00—23:09</div>
+      
       <div class="end-title">〈열여덟의 순간〉</div>
       <div class="end-info">제작발표회 · 첫 방송</div>
 
@@ -274,7 +274,7 @@ html = r"""
   margin-top:1.8%;
   font-family:"Radley", Georgia, serif;
   font-style:italic;
-  font-weight:700;
+  font-weight:500;
   font-size:clamp(20px,3vw,34px);
   letter-spacing:.08em;
 }
@@ -290,7 +290,7 @@ html = r"""
 .end-time {
   font-family:"Radley", Georgia, serif;
   font-style:italic;
-  font-weight:700;
+  font-weight:500;
   font-variant-numeric:lining-nums tabular-nums;
 }
 
@@ -306,7 +306,7 @@ html = r"""
 .end-title {
   margin-top:5%;
   font-size:clamp(18px,2.4vw,27px);
-  font-weight:700;
+  font-weight:500;
   letter-spacing:-.035em;
 }
 

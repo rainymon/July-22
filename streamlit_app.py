@@ -151,7 +151,7 @@ html = r"""
 
 .live-time {
   font-family: "Radley", Georgia, serif;
-  font-size: clamp(18px, 2.35vw, 34px);
+  font-size: clamp(24px, 3vw, 42px);
   font-style: italic;
   font-weight: 700;
   letter-spacing: 0;

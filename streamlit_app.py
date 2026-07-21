@@ -78,7 +78,7 @@ html = r"""
     <header class="masthead">
       <div class="date">2019.07.22</div>
       <div class="live-time" id="live-time">00:00</div>
-      <div class="counter"><span id="counter">000</span> / 176</div>
+      <div class="counter"><span id="counter">000</span></div>
     </header>
 
     <div class="timeline">

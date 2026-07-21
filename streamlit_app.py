@@ -274,7 +274,7 @@ html = r"""
   margin-top:1.2%;
   color:#555550;
   font-size:clamp(12px,1.55vw,18px);
-  letter-spacing:.02em
+  letter-spacing:.08em
 }
 
 .end-rule {

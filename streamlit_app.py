@@ -159,7 +159,7 @@ html = r"""
 .date,.counter { font-size:clamp(15px,2vw,28px); }
 .counter { text-align:right; }
 .live-time { font-size:clamp(18px,2.35vw,34px); }
-.timeline { position:absolute; left:5.2%; right:5.2%; top:12.1%; height:5.4%; z-index:4; }
+.timeline { position:absolute; left:5.2%; right:5.2%; top:10.2%; height:5.4%; z-index:4; }
 .timeline-track { position:relative; height:1px; margin-top:2.5%; background:#dadad6; }
 .timeline-progress { position:absolute; left:0; top:0; width:0%; height:1px; background:#111; }
 .timeline-dot { position:absolute; top:50%; left:0%; width:8px; height:8px; border-radius:50%; background:#111; transform:translate(-50%,-50%); }

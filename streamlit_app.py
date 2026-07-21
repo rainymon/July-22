@@ -19,7 +19,7 @@ LEAD_IN_SECONDS = 1.0
 SPECIAL_ARTICLES = {
     1:   {"file": "assets/article_001.jpg", "duration": 3.5, "scroll": False},
     6:   {"file": "assets/article_006.jpg", "duration": 1.2, "scroll": False},
-    100: {"file": "assets/article_100.jpg", "duration": 1.6, "scroll": False},
+
     161: {"file": "assets/article_161.jpg", "duration": 1.2, "scroll": False},
     162: {"file": "assets/article_162.jpg", "duration": 2.0, "scroll": False},
     176: {"file": "assets/article_176.jpg", "duration": 2.8, "scroll": False},
@@ -114,13 +114,6 @@ html = r"""
       <span>REAL INTERVALS · LINEARLY COMPRESSED</span>
     </footer>
 
-    <div id="lead" class="lead" aria-label="2019년 7월 22일">
-      <div class="lead-date">
-        <span>07.22</span>
-        <span>2019</span>
-      </div>
-    </div>
-
     <section id="end-card" class="end-card" aria-label="엔딩 크레딧">
       <div class="end-count">176</div>
       <div class="end-label">HEADLINES</div>
@@ -147,19 +140,34 @@ html = r"""
 .controls span { margin-left:4px; }
 #stage { position:relative; width:min(720px,80vw); aspect-ratio:4/5; overflow:hidden; background:#fff; border:1px solid #d8d8d3; box-shadow:0 16px 44px rgba(0,0,0,.10); outline:none; }
 .masthead { position:absolute; inset:0 0 auto 0; height:10.6%; display:grid; grid-template-columns:1fr auto 1fr; align-items:end; padding:0 5.2% 2.5%; border-bottom:1px solid #d7d7d3; z-index:5; background:#fff; }
-.date,
-.live-time,
-.counter {
-  font-family:"Radley", Georgia, serif;
-  font-style:italic;
-  font-weight:700;
-  letter-spacing:0;
-  font-variant-numeric:lining-nums tabular-nums;
+.date {
+  font-family: "Radley", Georgia, serif;
+  font-size: clamp(15px, 2vw, 28px);
+  font-style: italic;
+  font-weight: 700;
+  letter-spacing: 0;
+  font-variant-numeric: lining-nums tabular-nums;
 }
-.date,.counter { font-size:clamp(15px,2vw,28px); }
-.counter { text-align:right; }
-.live-time { font-size:clamp(18px,2.35vw,34px); }
-.timeline { position:absolute; left:5.2%; right:5.2%; top:10.2%; height:5.4%; z-index:4; }
+
+.live-time {
+  font-family: "Radley", Georgia, serif;
+  font-size: clamp(18px, 2.35vw, 34px);
+  font-style: italic;
+  font-weight: 700;
+  letter-spacing: 0;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.counter {
+  font-family: "Radley", Georgia, serif;
+  font-size: clamp(15px, 2vw, 28px);
+  font-style: italic;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-align: right;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+.timeline { position:absolute; left:5.2%; right:5.2%; top:12.1%; height:5.4%; z-index:4; }
 .timeline-track { position:relative; height:1px; margin-top:2.5%; background:#dadad6; }
 .timeline-progress { position:absolute; left:0; top:0; width:0%; height:1px; background:#111; }
 .timeline-dot { position:absolute; top:50%; left:0%; width:8px; height:8px; border-radius:50%; background:#111; transform:translate(-50%,-50%); }
@@ -224,42 +232,6 @@ html = r"""
   -webkit-user-drag:none;
 }
 .footer { position:absolute; left:5.2%; right:5.2%; bottom:3.2%; display:flex; justify-content:space-between; color:#777772; font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size:clamp(7px,.75vw,11px); letter-spacing:.05em; }
-.lead {
-  position:absolute;
-  inset:0;
-  z-index:40;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:#fff;
-  opacity:1;
-  transition:opacity 380ms ease;
-  pointer-events:none;
-}
-.lead.hide { opacity:0; pointer-events:none; }
-
-.lead-date {
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:clamp(2px,.5vh,7px);
-  color:#050505;
-  font-family:"Radley", Georgia, serif;
-  font-style:italic;
-  font-weight:700;
-  font-size:clamp(55px,8.2vw,78px);
-  line-height:.92;
-  letter-spacing:.005em;
-  font-variant-numeric:lining-nums tabular-nums;
-  transform:translateY(-2%);
-}
-
-.lead-date span {
-  display:block;
-  white-space:nowrap;
-}
-
 .end-card {
   position:absolute;
   left:0;
@@ -383,7 +355,6 @@ html = r"""
   const mediaTime = document.getElementById("media-time");
   const mediaViewport = document.getElementById("media-viewport");
   const mediaImage = document.getElementById("media-image");
-  const lead = document.getElementById("lead");
   const endCard = document.getElementById("end-card");
   const startButton = document.getElementById("start");
   const replayButton = document.getElementById("replay");
@@ -480,15 +451,21 @@ html = r"""
     specialRemaining = 0; currentSpecial = null; scrollMax = 0; finished = false; post176Blank = false; previousTimestamp = null;
     feed.innerHTML = ""; renderedItems = []; counter.textContent = "000"; liveTime.textContent = "00:00";
     progress.style.width = "0%"; dot.style.left = "0%"; hideSpecial();
-    lead.classList.remove("hide");
     endCard.classList.remove("show");
+
+    // 첫 화면부터 001번 기사와 캡처를 보여준다.
+    const firstArticle = events[0];
+    addFeedItem(firstArticle);
+    showSpecial(firstArticle, specialMedia[firstArticle.num]);
+    specialRemaining = specialMedia[firstArticle.num].duration;
+    nextIndex = 1;
+
     pauseButton.textContent = "일시정지 · Space"; startButton.textContent = "재생 시작";
   }
   function startPlayback() {
     if (!started) {
       started = true;
       wallElapsed = LEAD_IN;
-      lead.classList.add("hide");
       endCard.classList.remove("show");
       startButton.textContent = "재생 중";
       stage.focus();

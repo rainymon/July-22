@@ -617,4 +617,4 @@ html = r"""
 </script>
 """
 html = html.replace("__PAYLOAD__", json.dumps(payload, ensure_ascii=False))
-components.html(html, height=820, scrolling=False)
+components.html(html, height=850, scrolling=False)

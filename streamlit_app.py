@@ -267,7 +267,7 @@ html = r"""
 .end-count {
   font-family:"Radley", Georgia, serif;
   font-style:italic;
-  font-weight:700;
+  font-weight:500;
   font-size:clamp(68px,10vw,104px);
   line-height:.86;
   font-variant-numeric:lining-nums tabular-nums;

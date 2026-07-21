@@ -131,11 +131,44 @@ html = r"""
 
 :root { color-scheme: light; }
 * { box-sizing: border-box; }
-#j22-app { min-height:100vh; padding:12px 12px 28px; display:flex; flex-direction:column; align-items:center; background:#eeeeec; color:#111; font-family:"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",Arial,sans-serif; }
-.controls { width:min(720px,80vw); display:flex; align-items:center; gap:8px; margin-bottom:10px; font-size:12px; color:#565656; }
-.controls button { appearance:none; border:1px solid #cfcfcb; border-radius:999px; background:#fff; color:#111; padding:8px 13px; font:inherit; cursor:pointer; white-space:nowrap; }
-.controls span { margin-left:4px; }
-#stage { position:relative; width:min(720px,80vw); aspect-ratio:4/5; overflow:hidden; background:#fff; border:1px solid #d8d8d3; box-shadow:0 16px 44px rgba(0,0,0,.10); outline:none; }
+#j22-app {
+  height: 100vh;
+  min-height: 0;
+  padding: 8px 8px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  background: #eeeeec;
+  color: #111;
+  font-family:
+    "Apple SD Gothic Neo",
+    "Noto Sans KR",
+    "Malgun Gothic",
+    Arial,
+    sans-serif;
+}
+
+.controls {
+  width: min(720px, 80vw, calc(80vh - 56px));
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 12px;
+  color: #565656;
+}
+
+#stage {
+  position: relative;
+  width: min(720px, 80vw, calc(80vh - 56px));
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #d8d8d3;
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.10);
+  outline: none;
+}
 .masthead {
   position: absolute;
   inset: 0 0 auto 0;
@@ -584,4 +617,4 @@ html = r"""
 </script>
 """
 html = html.replace("__PAYLOAD__", json.dumps(payload, ensure_ascii=False))
-components.html(html, height=1280, scrolling=False)
+components.html(html, height=820, scrolling=False)

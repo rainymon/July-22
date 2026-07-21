@@ -354,8 +354,8 @@ html = r"""
   position:relative;
   flex:1;
   overflow:hidden;
-  border:1px solid #d9d9d4;
-  background:#fafaf8;
+  border:none;
+  background:transparent;
   display:flex;
   align-items:center;
   justify-content:center;

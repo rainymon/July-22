@@ -206,7 +206,8 @@ html = r"""
 .date {
   font-family: "Radley", Georgia, serif;
   font-size: clamp(15px, 2vw, 28px);
-  font-weight: 400;
+  font-style: italic;
+  font-weight: 700;
   letter-spacing: 0;
   font-variant-numeric: lining-nums tabular-nums;
 }
@@ -215,7 +216,8 @@ html = r"""
 .live-time {
   font-family: "Radley", Georgia, serif;
   font-size: clamp(18px, 2.35vw, 34px);
-  font-weight: 400;
+  font-style: italic;
+  font-weight: 700;
   letter-spacing: 0;
   font-variant-numeric: lining-nums tabular-nums;
 }
@@ -224,7 +226,8 @@ html = r"""
 .counter {
   font-family: "Radley", Georgia, serif;
   font-size: clamp(15px, 2vw, 28px);
-  font-weight: 400;
+  font-style: italic;
+  font-weight: 700;
   letter-spacing: 0;
   text-align: right;
   font-variant-numeric: lining-nums tabular-nums;
